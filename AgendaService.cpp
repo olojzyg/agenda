@@ -149,8 +149,8 @@ std::list<Meeting> AgendaService::meetingQuery(std::string userName, std::string
   eDate = eDate.stringToDate(endDate);
   return storage_->queryMeeting([&](Meeting m)->bool {
       if ((m.getSponsor() == userName || m.getParticipator() == userName)
-          && ((m.getStartDate() > sDate && m.getStartDate() < eDate)
-              || (m.getEndDate() < eDate && m.getEndDate() > sDate))) {
+          && ((m.getStartDate() >= sDate && m.getStartDate() <= eDate)
+              || (m.getEndDate() <= eDate && m.getEndDate() >= sDate))) {
         return true;
       } else {
         return false;
