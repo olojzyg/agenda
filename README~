@@ -1,0 +1,10 @@
+agenda
+======
+
+Meeting Agenda 
+This is olo
+Makefile Usage:
+make : you can get all .o file
+make start : you can get a executable file
+make run : run agenda
+make clean : remove all .o .h~ .cpp~
