@@ -51,6 +51,12 @@ void AgendaUI::OperationLoop(void) {
         queryMeetingByTitle();
       } else if (login == 1 && op == "qt") {
         queryMeetingByTimeInterval();
+      } else if (login == 1 && op == "umt") {
+        updateMeetingTitle();
+      } else if (login == 1 && op == "uup") {
+        updateUserPhone();
+      } else if (login == 1 && op == "uue") {
+        updateUserEmail();
       } else if (login == 1 && op == "dm") {
         deleteMeetingByTitle();
       } else if (login == 1 && op == "da") {
@@ -90,7 +96,8 @@ std::string AgendaUI::getOperation() {
 bool AgendaUI::executeOperation(std::string op) {
   if (op == "l" || op == "r" || op == "q" || op == "o" || op == "dc"
       || op == "lu" || op == "cm" || op == "la" || op == "las" || op == "lap"
-      || op == "qm" || op == "qt" || op == "dm" || op == "da") {
+      || op == "qm" || op == "qt" || op == "umt"|| op == "uup" || op == "uue"
+      ||op == "dm" || op == "da") {
     return true;
   } else {
     return false;
@@ -122,6 +129,9 @@ void AgendaUI::userLogIn(void) {
               << "lap - list all paticipate meetings" << std::endl
               << "qm  - query meeting by titile" << std::endl
               << "qt  - query meeting by time interval" << std::endl
+              << "umt - update meeting's title by title" << std::endl
+              << "uup - update user's phone" << std::endl
+              << "uue - update user's email" << std::endl
               << "dm  - delete meeting by title" << std::endl
               << "da  - delete all meetings" << std::endl
               << "--------------------------------------" << std::endl;
@@ -258,6 +268,45 @@ void AgendaUI::queryMeetingByTimeInterval(void) {
     = agendaService_.meetingQuery(userName_, sTime, eTime);
   std::cout << "\n[query meeting]\n\n";
   printMeetings(meeting);
+}
+
+void AgendaUI::updateMeetingTitle(void) {
+  std::cout << "\n[update title] [old title]  [new title]"
+            << "\n[update title] ";
+  std::string title, newTitle;
+  std::cin >> title >> newTitle;
+  if (agendaService_.updateMeetingTitle(userName_, title, newTitle)) {
+    std::cout << "\n[update title] succeed!\n";
+  } else {
+    std::cout << "\n[error] update meeting title fail!"
+              << "\n[error] maybe you have another same title meeting!";
+  }
+}
+
+void AgendaUI::updateUserPhone(void) {
+  std::cout << "\n[update phone] [new phone]"
+            << "\n[update phone] ";
+  std::string newPhone;
+  std::cin >> newPhone;
+  if (agendaService_.updateUserPhone(userName_, newPhone)) {
+    std::cout << "\n[update phone] succeed!\n";
+  } else {
+    std::cout << "\n[error] update user phone fail!"
+              << "\n[error] please contact suruoyanmashiro@qq.com";
+  }
+}
+
+void AgendaUI::updateUserEmail(void) {
+  std::cout << "\n[update email] [new eamil]"
+            << "\n[update email] ";
+  std::string newEmail;
+  std::cin >> newEmail;
+  if (agendaService_.updateUserEmail(userName_, newEmail)) {
+    std::cout << "\n[update email] succeed!\n";
+  } else {
+    std::cout << "\n[error] update user email fail!"
+              << "\n[error] please contact suruoyanmashiro@qq.com";
+  }
 }
 
 void AgendaUI::deleteMeetingByTitle(void) {

@@ -27,6 +27,9 @@ class AgendaUI {
   void listAllParticipateMeetings(void);
   void queryMeetingByTitle(void);
   void queryMeetingByTimeInterval(void);
+  void updateMeetingTitle(void);
+  void updateUserPhone(void);
+  void updateUserEmail(void);
   void deleteMeetingByTitle(void);
   void deleteAllMeetings(void);
   void printMeetings(std::list<Meeting> meetings);

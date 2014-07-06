@@ -1,0 +1,12 @@
+This is Meeting Agenda.
+It complete the work needed and my extend work.
+
+Makefile Usage:
+
+make : you can get all .o files
+
+make start : you can get the executable file "a.exe" (Need .o file)
+
+make run : you can run the executable file "a.exe"
+
+make clean : you can clean all .o file

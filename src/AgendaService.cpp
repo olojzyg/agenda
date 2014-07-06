@@ -47,7 +47,7 @@ bool AgendaService::userRegister(std::string userName, std::string password,
 bool AgendaService::deleteUser(std::string userName,
                                std::string password) {
   int c = 0;
-  // std::cout << "AgendaServive::deleteUser" << std::endl;
+  // std::cout << "AgendaService::deleteUser" << std::endl;
   c = storage_->deleteUser([&](User u)->bool {
       if (userName == u.getName() && password == u.getPassword()) {
         return true;
@@ -187,6 +187,69 @@ std::list<Meeting> AgendaService::listAllParticipateMeetings(std::string userNam
         return false;
       }
     });
+}
+
+bool AgendaService::updateMeetingTitle(std::string userName, std::string title,
+                                       std::string newTitle) {
+  int c = 0;
+  bool flag = true;
+  Meeting temp;
+  c = storage_->updateMeeting([&](Meeting m)->bool {
+      if (m.getTitle() == newTitle && m.getSponsor() == userName) {
+	flag = false;
+	return false;
+      }
+      if (m.getTitle() == title && m.getSponsor() == userName  && flag) {
+        return true;
+      } else {
+        return false;
+      }
+    }, [&](Meeting& n) {
+      n.setTitle(newTitle);
+      storage_->sync();
+      // std::cout << "In switcher Set Title succeed!" << std::endl;
+    }
+  );
+  if (c == 1)
+    return true;
+  else
+    return false;
+}
+
+bool AgendaService::updateUserPhone(std::string userName, std::string newPhone) {
+  int c = 0;
+  c = storage_->updateUser([&](User u)->bool {
+      if (u.getName() == userName)
+        return true;
+      else 
+        return false;
+    }, [&](User& u) {
+      u.setPhone(newPhone);
+      storage_->sync();
+    }
+  );
+  if (c == 1)
+    return true;
+  else
+    return false;
+}
+
+bool AgendaService::updateUserEmail(std::string userName, std::string newEmail) {
+  int c = 0;
+  c = storage_->updateUser([&](User u)->bool {
+      if (u.getName() == userName)
+        return true;
+      else 
+        return false;
+    }, [&](User& u) {
+      u.setPhone(newEmail);
+      storage_->sync();
+    }
+  );
+  if (c == 1)
+    return true;
+  else
+    return false;
 }
 
 bool AgendaService::deleteMeeting(std::string userName, std::string title) {
